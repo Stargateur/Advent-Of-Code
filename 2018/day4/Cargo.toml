@@ -1,0 +1,9 @@
+[package]
+name = "day4"
+version = "0.1.0"
+authors = ["Antoine PLASKOWSKI <antoine.plaskowski@epitech.eu>"]
+edition = "2018"
+
+[dependencies]
+nom = "4"
+chrono = "0.4"

@@ -1,0 +1,14 @@
+number = {            // To recognize a number...
+    ASCII_DIGIT+      //   take as many ASCII digits as possible (at least one).
+}
+
+wires = { directions* }
+
+directions = _{ direction ~ ("," ~ direction)* }
+
+direction = { (right | left | up | down) ~ number }
+
+right = { "R" }
+left = { "L" }
+up = { "U" }
+down = { "D" }
