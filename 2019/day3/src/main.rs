@@ -82,8 +82,18 @@ struct Point {
 
 #[derive(Debug, Eq, PartialEq, Copy, Clone)]
 enum AxeSegment {
-    X { x: i32, ya: i32, yb: i32, xstep: u32 },
-    Y { y: i32, xa: i32, xb: i32, ystep: u32 },
+    X {
+        x: i32,
+        ya: i32,
+        yb: i32,
+        xstep: u32,
+    },
+    Y {
+        y: i32,
+        xa: i32,
+        xb: i32,
+        ystep: u32,
+    },
 }
 
 impl Point {
@@ -209,18 +219,13 @@ where
                     | (AxeSegment::Y { y, xa, xb, ystep }, AxeSegment::X { x, ya, yb, xstep }) => {
                         if min(xa, xb) < x && x < max(xa, xb) && min(ya, yb) < y && y < max(ya, yb)
                         {
-                            let i = if xa < xb {
-                                x - xa
-                            } else {
-                                xa - x
-                            };
-                            let j = if ya < yb {
-                                y - ya
-                            }
-                            else {
-                                ya - y
-                            };
-                            Some(Point::new(*x, *y, xstep + ystep + i.abs() as u32 + j.abs() as u32))
+                            let i = if xa < xb { x - xa } else { xa - x };
+                            let j = if ya < yb { y - ya } else { ya - y };
+                            Some(Point::new(
+                                *x,
+                                *y,
+                                xstep + ystep + i.abs() as u32 + j.abs() as u32,
+                            ))
                         } else {
                             None
                         }
@@ -249,8 +254,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     });
     let intersections: Vec<_> = bench("calc_intersection", || calc_intersection(&segments));
 
-    let one = bench("Answer One", || intersections.iter().copied().map(Point::manhattan).min());
-    let two = bench("Answer One", || intersections.iter().copied().map(|point| point.step).min());
+    let one = bench("Answer One", || {
+        intersections.iter().copied().map(Point::manhattan).min()
+    });
+    let two = bench("Answer One", || {
+        intersections.iter().copied().map(|point| point.step).min()
+    });
     //println!("{:?}", intersections);
     println!("Answer One: {:?}", one);
     println!("Answer Two: {:?}", two);
